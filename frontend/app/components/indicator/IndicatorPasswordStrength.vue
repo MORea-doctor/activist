@@ -1,4 +1,5 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+import { computed, unref, type Ref } from "vue";
 <template>
   <div class="h-4">
     <div class="h-1 rounded-md bg-distinct-text">
@@ -62,7 +63,7 @@ const zxcvbnResult = computed(() => {
 
 const score = computed((): PasswordIndexKey => {
   const result=zxcvbnResult.value
-  if (!result.value) return 0;
+  if (!result) return 0;
   const guessLog: number = result.guesses_log10;
   const scoreIndex = SCORE_THRESHOLDS.findIndex(
     (threshold) => guessLog < threshold
@@ -77,7 +78,7 @@ const color = computed(() => passwordStrengthMap[score.value].color);
 
 const crackTimeDisplay = computed(() => {
   const result = zxcvbnResult.value;
-  if (!result.value) return "";
+  if (!result) return "";
   return result.crack_times_display.offline_slow_hashing_1e4_per_second;
 });
 </script>
